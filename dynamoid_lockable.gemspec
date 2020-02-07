@@ -29,4 +29,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
 
   spec.add_runtime_dependency 'dynamoid_advanced_where', '~> 1', '< 2.0'
+  spec.add_development_dependency 'rspec', '~> 3'
+  spec.add_development_dependency 'rake', '~> 12'
+  spec.add_development_dependency 'simplecov'
 end

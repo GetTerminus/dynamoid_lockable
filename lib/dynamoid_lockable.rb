@@ -114,7 +114,7 @@ module DynamoidLockable
       ensure_lockable_field(lock_name)
 
       advanced_where do |r|
-        r.send(klass.hash_key).exists? & (
+        r.send(self.hash_key).exists? & (
           (r.send("#{lock_name}_locked_by") == locker_name) |
           !r.send("#{lock_name}_locked_until") |
           (r.send("#{lock_name}_locked_until") < Time.now)
@@ -130,7 +130,7 @@ module DynamoidLockable
       ensure_lockable_field(lock_name)
 
       advanced_where do |r|
-        r.send(klass.hash_key).exists? &
+        r.send(self.hash_key).exists? &
           (r.send("#{lock_name}_locked_by") == locker_name)
       end
     end

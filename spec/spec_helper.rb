@@ -1,7 +1,13 @@
 require "bundler/setup"
+require 'simplecov'
+SimpleCov.start do
+  enable_coverage :branch
+end
+
 require "dynamoid_lockable"
 
 RSpec.configure do |config|
+  Dir[File.join(File.dirname(__FILE__), 'support/**/*.rb')].each { |f| require f }
   # Enable flags like --only-failures and --next-failure
   config.example_status_persistence_file_path = ".rspec_status"
 
