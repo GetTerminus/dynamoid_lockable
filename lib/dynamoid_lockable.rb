@@ -57,7 +57,6 @@ module DynamoidLockable
       loop do
         lock(name, locker_name: locker_name)
 
-        puts "Sleeping #{config[:relock_every]}"
         sleep config[:relock_every]
       end
     end
@@ -114,9 +113,9 @@ module DynamoidLockable
       ensure_lockable_field(lock_name)
 
       advanced_where do |r|
-        r.send(self.hash_key).exists? & (
+        r.send(hash_key).exists? & (
           (r.send("#{lock_name}_locked_by") == locker_name) |
-          !r.send("#{lock_name}_locked_until") |
+          !r.send("#{lock_name}_locked_until").exists? |
           (r.send("#{lock_name}_locked_until") < Time.now)
         )
       end

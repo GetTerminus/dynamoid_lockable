@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'spec_helper'
+require 'pry'
 
 RSpec.describe DynamoidLockable do
   let(:klass) do

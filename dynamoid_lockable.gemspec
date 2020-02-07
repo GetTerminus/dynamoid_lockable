@@ -28,10 +28,10 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ['lib']
 
-  spec.add_runtime_dependency 'dynamoid_advanced_where', '~> 1', '< 2.0'
+  spec.add_runtime_dependency 'dynamoid_advanced_where', '>= 1.0.1', '< 2.0'
 
   spec.add_development_dependency 'appraisal'
   spec.add_development_dependency 'rake', '~> 12'
   spec.add_development_dependency 'rspec', '~> 3'
-  spec.add_development_dependency 'simplecov'
+  spec.add_development_dependency 'codecov'
 end

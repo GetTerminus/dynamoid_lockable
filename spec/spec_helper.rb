@@ -4,6 +4,9 @@ SimpleCov.start do
   enable_coverage :branch
 end
 
+require 'codecov'
+SimpleCov.formatter = SimpleCov::Formatter::Codecov
+
 require "dynamoid_lockable"
 
 RSpec.configure do |config|
