@@ -15,6 +15,10 @@ GEM
       minitest (~> 5.1)
       tzinfo (~> 1.1)
       zeitwerk (~> 2.2)
+    appraisal (2.2.0)
+      bundler
+      rake
+      thor (>= 0.14.0)
     aws-eventstream (1.0.3)
     aws-partitions (1.270.0)
     aws-sdk-core (3.89.1)
@@ -60,6 +64,7 @@ GEM
       docile (~> 1.1)
       simplecov-html (~> 0.11.0)
     simplecov-html (0.11.0)
+    thor (1.0.1)
     thread_safe (0.3.6)
     tzinfo (1.2.6)
       thread_safe (~> 0.1)
@@ -70,6 +75,7 @@ PLATFORMS
   x86_64-darwin-18
 
 DEPENDENCIES
+  appraisal
   dynamoid_lockable!
   rake (~> 12)
   rspec (~> 3)
