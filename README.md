@@ -18,7 +18,7 @@ Or install it yourself as:
     $ gem install dynamoid_lockable
 
 ## Usage
-```
+```ruby
 class MyModel
   include Dynamoid::Document
   include DynamoidLockable
