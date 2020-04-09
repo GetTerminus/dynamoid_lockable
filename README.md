@@ -67,6 +67,23 @@ A note on the options:
 * If unable to obtain a lock, `DynamoidLockable::CouldNotAcquireLock` is raised
 * If unable to obtain to release a lock, `DynamoidLockable::CouldNotUnlock` is raised
 
+## Testing Lockable Items
+
+IDs used for locks are based on a unique ID assigned to each thread. If you want to write tests in your application to ensure locking is behaving how you desire, youl'll need to spawn new threads in your test. Example:
+
+```ruby
+describe 'locking works' do
+  around do |ex|
+    my_object.perform_with_lock(:thing_in_progress) { ex.run }
+  end
+
+  it 'never calls some method that needs to acquire the lock' do
+    expect(job).not_to receive(:my_locked_method!)
+    Thread.new { job.perform }.join # spawn a thread, call your job method, then join the thread
+  end
+end
+```
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
