@@ -69,7 +69,22 @@ A note on the options:
 
 ## Testing Lockable Items
 
-IDs used for locks are based on a unique ID assigned to each thread. If you want to write tests in your application to ensure locking is behaving how you desire, youl'll need to spawn new threads in your test. Example:
+By default when calling `perform_with_lock`, IDs used for locks are based on a unique ID assigned to each thread. If you want to write tests in your application to ensure locking is behaving how you desire, there are two ways. The easiest way is to simply manually call `lock` with a specified locker_name. Example:
+
+```ruby
+describe 'locking works' do
+  before do
+    my_object.lock(:thing_in_progress, locker_name: 'tEsT_lOcKeR_nAmE')
+  end
+
+  it 'never calls some method that needs to acquire the lock' do
+    expect(job).not_to receive(:my_locked_method!)
+    job.perform
+  end
+end
+```
+
+The other way is to use `perform_with_lock` in an 'around' block, and then spawn a new thread. Example:
 
 ```ruby
 describe 'locking works' do
