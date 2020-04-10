@@ -55,7 +55,7 @@ thing.lock(:importing)
 thing.lock(:importing) # No error
 
 Thread.new do
-  thing.lock(:importing) # Error: Concerns::Lockable::CouldNotAcquireLock
+  thing.lock(:importing) # Error: DynamoidLockable::CouldNotAcquireLock
 end
 ```
 
