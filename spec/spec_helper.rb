@@ -1,13 +1,25 @@
 require "bundler/setup"
-require 'simplecov'
-SimpleCov.start do
-  enable_coverage :branch
-end
-
-require 'codecov'
-SimpleCov.formatter = SimpleCov::Formatter::Codecov
-
+require 'deep_cover/builtin_takeover'
 require "dynamoid_lockable"
+require 'simplecov'
+
+
+
+SimpleCov.start do
+  add_filter '/vendor/'
+  add_filter '/spec/'
+
+  if ENV['CI']
+    require 'simplecov-lcov'
+
+    SimpleCov::Formatter::LcovFormatter.config do |c|
+      c.report_with_single_file = true
+      c.single_report_path = 'coverage/lcov.info'
+    end
+
+    formatter SimpleCov::Formatter::LcovFormatter
+  end
+end
 
 RSpec.configure do |config|
   Dir[File.join(File.dirname(__FILE__), 'support/**/*.rb')].each { |f| require f }
