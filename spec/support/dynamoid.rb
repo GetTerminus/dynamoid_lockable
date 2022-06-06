@@ -12,4 +12,3 @@ Dynamoid.configure do |config|
   config.namespace = SecureRandom.uuid.tr('-', '')
   config.endpoint =  ENV.fetch('DYNAMODB_HOST', 'http://localhost:8000')
 end
-

@@ -1,0 +1,27 @@
+name: 'Lint'
+
+on: push
+
+jobs:
+  run-rubocop:
+    name: Lint code
+    strategy:
+      fail-fast: false
+      matrix:
+        rubyVersion: ["3.1.2"]
+    runs-on: ubuntu-latest
+    env:
+      BUNDLE_GETTERMINUS__JFROG__IO: github:${{ secrets.ARTIFACTORY_PUBLISH_ACCESS_TOKEN }}
+      BUNDLE_GITHUB__COM: ${{ secrets.GH_PULL_ACCESS_TOKEN }}:x-oauth-basic
+    steps:
+      - name: Setup Artifactory Credentials
+        run: |
+          gem source -a https://github:${{ secrets.ARTIFACTORY_PUBLISH_ACCESS_TOKEN }}@getterminus.jfrog.io/artifactory/api/gems/default-gems/
+      - uses: actions/checkout@v2
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.rubyVersion }}
+          bundler-cache: true
+          cache-version: "${{ matrix.rubyVersion }}-0"
+      - name: Run RuboCop
+        run: bundle exec rubocop

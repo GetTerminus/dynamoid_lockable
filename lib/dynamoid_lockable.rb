@@ -20,12 +20,12 @@ module DynamoidLockable
     locked_until = Time.now + self.class.lock_config(name)[:duration]
 
     result = self.class
-                 .lockable(name, locker_name: locker_name)
-                 .upsert(
-                   hash_key,
-                   "#{name}_locked_until": locked_until,
-                   "#{name}_locked_by": locker_name
-                 )
+      .lockable(name, locker_name: locker_name)
+      .upsert(
+        hash_key,
+        "#{name}_locked_until": locked_until,
+        "#{name}_locked_by": locker_name,
+      )
 
     raise CouldNotAcquireLock unless result
 
@@ -42,7 +42,7 @@ module DynamoidLockable
     ensure_lockable_field(name)
 
     result = self.class.unlockable(name)
-                 .upsert(hash_key, "#{name}_locked_until": nil)
+      .upsert(hash_key, "#{name}_locked_until": nil)
 
     raise CouldNotUnlock unless result
 
@@ -68,9 +68,7 @@ module DynamoidLockable
 
     result = lock(name)
 
-    if config[:relock_every]&.positive?
-      relock_thread = create_relock_thread(name)
-    end
+    relock_thread = create_relock_thread(name) if config[:relock_every]&.positive?
 
     yield
   ensure
@@ -102,7 +100,7 @@ module DynamoidLockable
 
     def locks_with(base_field, lock_for: DEFAULT_LOCK_TIME, relock_every: lock_for / 3)
       self.lockable_fields = lockable_fields.merge(
-        base_field.to_sym => { duration: lock_for, relock_every: relock_every }
+        base_field.to_sym => { duration: lock_for, relock_every: relock_every },
       )
 
       field  "#{base_field}_locked_until".to_sym, :datetime
@@ -129,7 +127,7 @@ module DynamoidLockable
       ensure_lockable_field(lock_name)
 
       advanced_where do |r|
-        r.send(self.hash_key).exists? &
+        r.send(hash_key).exists? &
           (r.send("#{lock_name}_locked_by") == locker_name)
       end
     end
