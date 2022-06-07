@@ -1,8 +1,9 @@
+# frozen_string_literal: true
 
-appraise "dynamoid-3.4" do
-  gem "dynamoid", "~> 3.4.0"
+appraise 'dynamoid-3.4' do
+  gem 'dynamoid', '~> 3.4.0'
 end
 
-appraise "dynamoid-latest" do
-  gem "dynamoid", "~> 3.0"
+appraise 'dynamoid-latest' do
+  gem 'dynamoid', '~> 3.0'
 end
