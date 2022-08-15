@@ -22,5 +22,5 @@ RSpec.describe DynamoidLockable do
 
   let(:creation_function) { -> { klass.create(custom_id: SecureRandom.uuid, range_id: SecureRandom.uuid) } }
 
-  it_behaves_like "a lockable dynamoid model"
+  it_behaves_like 'a lockable dynamoid model'
 end
