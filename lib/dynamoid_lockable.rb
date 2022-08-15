@@ -69,9 +69,7 @@ module DynamoidLockable
 
     result = lock(name)
 
-    if config[:relock_every]&.positive?
-      relock_thread = create_relock_thread(name)
-    end
+    relock_thread = create_relock_thread(name) if config[:relock_every]&.positive?
 
     yield
   ensure
@@ -103,7 +101,7 @@ module DynamoidLockable
 
     def locks_with(base_field, lock_for: DEFAULT_LOCK_TIME, relock_every: lock_for / 3)
       self.lockable_fields = lockable_fields.merge(
-        base_field.to_sym => { duration: lock_for, relock_every: relock_every }
+        base_field.to_sym => { duration: lock_for, relock_every: relock_every },
       )
 
       field  "#{base_field}_locked_until".to_sym, :datetime
