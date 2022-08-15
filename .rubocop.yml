@@ -1,3 +1,6 @@
+AllCops:
+  NewCops: enable
+
 inherit_from:
   - https://raw.githubusercontent.com/GetTerminus/ruby_shared_configs/master/.rubocop-3-1.yml
 

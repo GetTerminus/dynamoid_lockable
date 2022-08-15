@@ -1,4 +1,6 @@
-RSpec.shared_examples "a lockable dynamoid model" do 
+# frozen_string_literal: true
+
+RSpec.shared_examples 'a lockable dynamoid model' do
   let(:instance) { creation_function.call }
 
   describe 'relocking' do
