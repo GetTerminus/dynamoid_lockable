@@ -4,6 +4,7 @@ require 'bundler/setup'
 require 'deep_cover/builtin_takeover'
 require 'dynamoid_lockable'
 require 'simplecov'
+require 'pry'
 
 SimpleCov.start do
   add_filter '/vendor/'
