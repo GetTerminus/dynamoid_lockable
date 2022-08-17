@@ -23,6 +23,7 @@ module DynamoidLockable
       .lockable(name, locker_name: locker_name)
       .upsert(
         hash_key,
+        range_value,
         "#{name}_locked_until": locked_until,
         "#{name}_locked_by": locker_name,
       )
@@ -42,7 +43,7 @@ module DynamoidLockable
     ensure_lockable_field(name)
 
     result = self.class.unlockable(name)
-      .upsert(hash_key, "#{name}_locked_until": nil)
+      .upsert(hash_key, range_value, "#{name}_locked_until": nil)
 
     raise CouldNotUnlock unless result
 
@@ -111,7 +112,7 @@ module DynamoidLockable
       ensure_lockable_field(lock_name)
 
       advanced_where do |r|
-        r.send(hash_key).exists? & (
+        key_filter(r) & (
           (r.send("#{lock_name}_locked_by") == locker_name) |
           !r.send("#{lock_name}_locked_until").exists? |
           (r.send("#{lock_name}_locked_until") < Time.now)
@@ -127,8 +128,16 @@ module DynamoidLockable
       ensure_lockable_field(lock_name)
 
       advanced_where do |r|
-        r.send(hash_key).exists? &
+        key_filter(r) &
           (r.send("#{lock_name}_locked_by") == locker_name)
+      end
+    end
+
+    def key_filter(condition_builder)
+      if range_key
+        condition_builder.public_send(hash_key).exists? & condition_builder.public_send(range_key).exists?
+      else
+        condition_builder.public_send(hash_key).exists?
       end
     end
   end

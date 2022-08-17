@@ -1,20 +1,7 @@
 # frozen_string_literal: true
 
-require 'spec_helper'
-
-RSpec.describe DynamoidLockable do
-  let(:klass) do
-    Class.new do
-      include Dynamoid::Document
-      include DynamoidLockable
-
-      table name: :test, key: :custom_id
-
-      locks_with :no_relock, lock_for: 2, relock_every: nil
-      locks_with :with_relock, lock_for: 3
-    end
-  end
-  let(:instance) { klass.create }
+RSpec.shared_examples 'a lockable dynamoid model' do
+  let(:instance) { creation_function.call }
 
   describe 'relocking' do
     it 'holds the lock' do
