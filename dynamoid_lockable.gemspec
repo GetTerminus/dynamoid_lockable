@@ -30,8 +30,8 @@ Gem::Specification.new do |spec|
 
   spec.add_runtime_dependency 'dynamoid_advanced_where', '>= 1.0.1', '< 2.0'
 
-  spec.add_dependency 'rexml'
   spec.add_dependency 'dynamoid'
+  spec.add_dependency 'rexml'
   spec.add_development_dependency 'deep-cover'
   spec.add_development_dependency 'rake', '~> 12'
   spec.add_development_dependency 'rspec', '~> 3'
